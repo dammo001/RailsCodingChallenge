@@ -4,13 +4,8 @@ class Cuboid
 	attr_reader :origin, :top, :bottom, :left, :right, :front, :back, :width, :height, :length
 
 	def initialize(origin, length, width, height)
-		if length <= 0 || width <= 0 || height <= 0
-			raise "Can't have negative side lengths"
-		end
-		@origin = origin
-		@length = length
-		@width = width
-		@height = height 
+		raise "Can't have negative side lengths" if check_inputs(length,width,height)
+		@origin, @length, @width, @height = origin, length, width, height
 		find_and_check
 	end
 
@@ -67,6 +62,10 @@ class Cuboid
 		check_position
 	end
 
+	def check_inputs(length, width, height)
+		length <= 0 || width <= 0 || height <= 0
+	end
+
 	def find_sides(length, width, height) 
 		x = @origin[0]
 		y = @origin[1]
@@ -98,6 +97,7 @@ class Cuboid
 		else
 			change_height = 0 
 		end
+
 		if (change_length > 0) || (change_width > 0) || (change_height > 0)
 			move_to!([@origin[0] + change_length, @origin[1] + change_width, @origin[2] + change_height])
 		end
